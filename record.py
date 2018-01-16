@@ -3,10 +3,10 @@ import wave
 
 CHUNK = 1024
 FORMAT = pyaudio.paInt16
-CHANNELS = 2
-RATE = 44100
-RECORD_SECONDS = 10
-WAVE_OUTPUT_FILENAME = "output.wav"
+CHANNELS = 1
+RATE = 16000
+RECORD_SECONDS = 5
+WAVE_OUTPUT_FILENAME = "question.wav"
 
 p = pyaudio.PyAudio()
 

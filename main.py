@@ -21,6 +21,28 @@ CHANNELS = 1
 RATE = 16000
 RECORD_SECONDS = 0.5
 
+def gui_listen_sample():
+	r = random.random()
+	if r < 0.91:
+		return 'listen/00.avi'
+	if r < 0.97:
+		return 'listen/01.avi'
+	if r <= 1.00:
+		return 'listen/02.avi'
+
+def gui_speak_sample():
+	r = random.random()
+	if r < 0.2:
+		return 'speak/00.avi'
+	if r < 0.4:
+		return 'speak/01.avi'
+	if r < 0.6:
+		return 'speak/02.avi'
+	if r < 0.8:
+		return 'speak/03.avi'
+	if r < 1.0:
+		return 'speak/04.avi'
+
 class Frame(object):
 	"""Represents a "frame" of audio data."""
 	def __init__(self, bytes, timestamp, duration):
@@ -166,6 +188,8 @@ def speak_proc(speak_q, PV, gui_q, shutdown_q):
 		PV.put('PV')
 		if '关机' in question:
 			answer = '再见'
+		elif 'initialization' in question:
+			answer = '主人你好，我是爱酱'
 		else:
 			data = {'key':'50d6624f41424826807103b1a76a8f6e',
 					'info' : question,
@@ -187,11 +211,11 @@ def speak_proc(speak_q, PV, gui_q, shutdown_q):
 				rate=wf.getframerate(),
 				output=True)
 		data = wf.readframes(CHUNK)
-		count = 8
+		count = 4
 		while data != b'':
-			if count == 8:
+			if count == 4:
 				gui_q.put(1)
-			count = (count % 8) + 1
+			count = (count % 4) + 1
 			stream.write(data)
 			data = wf.readframes(CHUNK)
 		stream.stop_stream()
@@ -213,14 +237,11 @@ def gui_proc(gui_q, shutdown_q):
 			flag = shutdown_q.get(False)
 		except Empty:
 			flag = True
-		s = random.randint(0, 4)
-		f = ""
+		f = ''
 		if r == 0:
-			f += "listen/0"
+			f = gui_listen_sample()
 		else:
-			f += "speak/0"
-		f += str(s)
-		f += ".avi"
+			f = gui_speak_sample()
 		cap = cv2.VideoCapture(f)
 		while(cap.isOpened()):
 			ret, frame = cap.read()
@@ -238,6 +259,7 @@ if __name__=='__main__':
 
 	voice_q = Queue()
 	speak_q = Queue()
+
 	manager_q = Queue()
 	PV = Queue()
 	gui_q = Queue()
@@ -256,6 +278,8 @@ if __name__=='__main__':
 	voice = []
 
 	flag = False
+
+	speak_q.put('initialization')
 
 	while True:
 		frames = voice_q.get(True)

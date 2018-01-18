@@ -240,6 +240,8 @@ def gui_proc(gui_q, shutdown_q):
 		f = ''
 		if r == 0:
 			f = gui_listen_sample()
+		elif r == 2:
+			f = 'goodbye.avi'
 		else:
 			f = gui_speak_sample()
 		cap = cv2.VideoCapture(f)
@@ -249,9 +251,26 @@ def gui_proc(gui_q, shutdown_q):
 				break
 			cv2.imshow("kizunaai", frame)
 			if cv2.waitKey(33) == 27:
+				print('goodbye_flag')
 				flag = False
-				break
 		cap.release()
+
+	print('goodbye_begin')
+
+	f = 'goodbye.avi'
+	cap = cv2.VideoCapture(f)
+	while(cap.isOpened()):
+		ret, frame = cap.read()
+		if not(ret):
+			break
+		cv2.imshow("kizunaai", frame)
+		if cv2.waitKey(33) == 27:
+			print('goodbye_flag')
+			flag = False	
+	cap.release()
+
+	print('goodbye_end')
+
 	cv2.destroyAllWindows()
 
 if __name__=='__main__':
@@ -265,14 +284,14 @@ if __name__=='__main__':
 	gui_q = Queue()
 	shutdown_q = Queue()
 
+	gui = Process(target=gui_proc, args=(gui_q, shutdown_q))
+	gui.start()
+
 	listen = Process(target=listen_proc, args=(voice_q,))
 	listen.start()
 
 	manager = Process(target=manager_proc, args=(manager_q, speak_q, PV, gui_q, shutdown_q))
 	manager.start()
-
-	gui = Process(target=gui_proc, args=(gui_q, shutdown_q))
-	gui.start()
 
 	p = pyaudio.PyAudio()
 	voice = []

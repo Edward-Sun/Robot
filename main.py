@@ -223,7 +223,7 @@ def speak_proc(speak_q, PV, gui_q, status_on_q):
 		data = wf.readframes(CHUNK)
 		count = 4
 		while data != b'':
-			if count == 4:
+			if count == 4 and not 'initialization' in question:
 				gui_q.put(1)
 			count = (count % 4) + 1
 			stream.write(data)
@@ -242,6 +242,18 @@ def gui_proc(gui_q, status_on_q):
 		flag = status_on_q.get(True)
 		status_on_q.put(flag)
 		if flag:
+			f = 'hello.avi'
+			cap = cv2.VideoCapture(f)
+			while(cap.isOpened()):
+				ret, frame = cap.read()
+				if not(ret):
+					break
+				cv2.imshow("kizunaai", frame)
+				if cv2.waitKey(33) == 27:
+					status_on_q.get(True)
+					flag = False
+					status_on_q.put(flag)	
+			cap.release()
 			while flag:
 				try:
 					r = gui_q.get(False)
@@ -263,8 +275,9 @@ def gui_proc(gui_q, status_on_q):
 						break
 					cv2.imshow("kizunaai", frame)
 					if cv2.waitKey(33) == 27:
-						print('goodbye_flag')
+						status_on_q.get(True)
 						flag = False
+						status_on_q.put(flag)
 				cap.release()
 			f = 'goodbye.avi'
 			cap = cv2.VideoCapture(f)
@@ -274,7 +287,9 @@ def gui_proc(gui_q, status_on_q):
 					break
 				cv2.imshow("kizunaai", frame)
 				if cv2.waitKey(33) == 27:
-					flag = False	
+					status_on_q.get(True)
+					flag = False
+					status_on_q.put(flag)
 			cap.release()
 			cv2.destroyAllWindows()
 

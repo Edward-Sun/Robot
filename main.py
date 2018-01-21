@@ -129,17 +129,17 @@ def vad_collector(sample_rate, frame_duration_ms,
 	if voiced_frames:
 		yield b''.join([f.bytes for f in voiced_frames])
 
-def manager_proc(manager_q, speak_q, PV, gui_q, shutdown_q):
-	speak = Process(target=speak_proc, args=(speak_q, PV, gui_q, shutdown_q))
+def manager_proc(manager_q, speak_q, PV, gui_q, status_on_q):
+	speak = Process(target=speak_proc, args=(speak_q, PV, gui_q, status_on_q))
 	speak.start()
 	while manager_q.get(True) != 0:
 		speak.terminate()
 		while not PV.empty():
 			PV.get(True)
-		speak = Process(target=speak_proc, args=(speak_q, PV, gui_q, shutdown_q))
+		speak = Process(target=speak_proc, args=(speak_q, PV, gui_q, status_on_q))
 		speak.start()
 
-def listen_proc(q):
+def listen_proc(voice_q):
 	print('Hello, I am listen process' + str(os.getpid()))
 	p = pyaudio.PyAudio()
 	stream = p.open(format=FORMAT,
@@ -153,9 +153,11 @@ def listen_proc(q):
 		for i in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
 			data = stream.read(CHUNK)
 			frames.append(data)
-		q.put(frames)
+		voice_q.put(frames)
 
-def analyze_proc(voice, speak_q, PV, manager_q):
+
+
+def analyze_proc(voice, speak_q, PV, manager_q, status_on_q):
 	print('Hello, I am analyze process' + str(os.getpid()))
 	p = pyaudio.PyAudio()
 	wf = wave.open('question.wav', 'wb')
@@ -172,17 +174,25 @@ def analyze_proc(voice, speak_q, PV, manager_q):
 	fq.close()
 
 	if question != '':
-		print('question:' + question)
-		if PV.empty():	
-			speak_q.put(question)
+		flag = status_on_q.get(True)
+		status_on_q.put(flag)
+		if flag:
+			print('question:' + question)
+			if PV.empty():	
+				speak_q.put(question)
+			else:
+				manager_q.put(1)
+				print('Terminate')
+				speak_q.put(question)
 		else:
-			manager_q.put(1)
-			print('Terminate')
-			speak_q.put(question)
+			if '开机' in question:
+				status_on_q.get(True)
+				status_on_q.put(True)
+				speak_q.put('initialization')
 
 
 
-def speak_proc(speak_q, PV, gui_q, shutdown_q):
+def speak_proc(speak_q, PV, gui_q, status_on_q):
 	while True:
 		question = speak_q.get(True)
 		PV.put('PV')
@@ -222,56 +232,51 @@ def speak_proc(speak_q, PV, gui_q, shutdown_q):
 		stream.close()
 		p.terminate()
 		if '关机' in question:
-			shutdown_q.put(False)
+			status_on_q.get(True)
+			status_on_q.put(False)
 		PV.get(True)
 
-def gui_proc(gui_q, shutdown_q):
+def gui_proc(gui_q, status_on_q):
 	print('Hello, I am gui process' + str(os.getpid()))
-	flag = True
-	while flag:
-		try:
-			r = gui_q.get(False)
-		except Empty:
-			r = 0
-		try:
-			flag = shutdown_q.get(False)
-		except Empty:
-			flag = True
-		f = ''
-		if r == 0:
-			f = gui_listen_sample()
-		elif r == 2:
+	while True:
+		flag = status_on_q.get(True)
+		status_on_q.put(flag)
+		if flag:
+			while flag:
+				try:
+					r = gui_q.get(False)
+				except Empty:
+					r = 0
+				flag = status_on_q.get(True)
+				status_on_q.put(flag)
+				f = ''
+				if r == 0:
+					f = gui_listen_sample()
+				elif r == 2:
+					f = 'goodbye.avi'
+				else:
+					f = gui_speak_sample()
+				cap = cv2.VideoCapture(f)
+				while(cap.isOpened()):
+					ret, frame = cap.read()
+					if not(ret):
+						break
+					cv2.imshow("kizunaai", frame)
+					if cv2.waitKey(33) == 27:
+						print('goodbye_flag')
+						flag = False
+				cap.release()
 			f = 'goodbye.avi'
-		else:
-			f = gui_speak_sample()
-		cap = cv2.VideoCapture(f)
-		while(cap.isOpened()):
-			ret, frame = cap.read()
-			if not(ret):
-				break
-			cv2.imshow("kizunaai", frame)
-			if cv2.waitKey(33) == 27:
-				print('goodbye_flag')
-				flag = False
-		cap.release()
-
-	print('goodbye_begin')
-
-	f = 'goodbye.avi'
-	cap = cv2.VideoCapture(f)
-	while(cap.isOpened()):
-		ret, frame = cap.read()
-		if not(ret):
-			break
-		cv2.imshow("kizunaai", frame)
-		if cv2.waitKey(33) == 27:
-			print('goodbye_flag')
-			flag = False	
-	cap.release()
-
-	print('goodbye_end')
-
-	cv2.destroyAllWindows()
+			cap = cv2.VideoCapture(f)
+			while(cap.isOpened()):
+				ret, frame = cap.read()
+				if not(ret):
+					break
+				cv2.imshow("kizunaai", frame)
+				if cv2.waitKey(33) == 27:
+					flag = False	
+			cap.release()
+			cv2.destroyAllWindows()
 
 if __name__=='__main__':
 	print('Hello, I am main process' + str(os.getpid()))
@@ -282,23 +287,23 @@ if __name__=='__main__':
 	manager_q = Queue()
 	PV = Queue()
 	gui_q = Queue()
-	shutdown_q = Queue()
+	status_on_q = Queue()
 
-	gui = Process(target=gui_proc, args=(gui_q, shutdown_q))
+	status_on_q.put(False)
+
+	gui = Process(target=gui_proc, args=(gui_q, status_on_q))
 	gui.start()
 
-	listen = Process(target=listen_proc, args=(voice_q,))
+	listen = Process(target=listen_proc, args=(voice_q, ))
 	listen.start()
 
-	manager = Process(target=manager_proc, args=(manager_q, speak_q, PV, gui_q, shutdown_q))
+	manager = Process(target=manager_proc, args=(manager_q, speak_q, PV, gui_q, status_on_q))
 	manager.start()
 
 	p = pyaudio.PyAudio()
 	voice = []
 
 	flag = False
-
-	speak_q.put('initialization')
 
 	while True:
 		frames = voice_q.get(True)
@@ -315,7 +320,7 @@ if __name__=='__main__':
 
 		if len(segments) == 0:
 			if flag:
-				analyze = Process(target=analyze_proc, args=(voice, speak_q, PV, manager_q))
+				analyze = Process(target=analyze_proc, args=(voice, speak_q, PV, manager_q, status_on_q))
 				analyze.start()
 				flag = False
 			voice = []

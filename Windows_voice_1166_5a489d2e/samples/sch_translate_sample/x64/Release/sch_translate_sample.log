@@ -1,0 +1,7 @@
+﻿  找不到 C:\Users\Friedrich\Desktop\Windows_voice_1166_5a489d2e\samples\x64\Release\msc_x64.dll
+  另一个程序正在使用此文件，进程无法访问。
+  已复制         0 个文件。
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppCommon.targets(123,5): error MSB3073: 命令“del C:\Users\Friedrich\Desktop\Windows_voice_1166_5a489d2e\samples\sch_translate_sample\..\..\bin\sch_translate_sample.exe
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppCommon.targets(123,5): error MSB3073: del C:\Users\Friedrich\Desktop\Windows_voice_1166_5a489d2e\samples\x64\Release\msc_x64.dll
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppCommon.targets(123,5): error MSB3073: copy C:\Users\Friedrich\Desktop\Windows_voice_1166_5a489d2e\samples\sch_translate_sample\..\..\bin\msc_x64.dll C:\Users\Friedrich\Desktop\Windows_voice_1166_5a489d2e\samples\x64\Release\
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppCommon.targets(123,5): error MSB3073: :VCEnd”已退出，代码为 1。

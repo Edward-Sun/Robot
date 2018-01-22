@@ -1,0 +1,21 @@
+﻿  已复制         1 个文件。
+  asr_sample.c
+asr_sample.c(57): warning C4267: “=”: 从“size_t”转换到“unsigned int”，可能丢失数据
+asr_sample.c(72): warning C4267: “=”: 从“size_t”转换到“unsigned int”，可能丢失数据
+asr_sample.c(39): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt\stdio.h(205): note: 参见“fopen”的声明
+asr_sample.c(78): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt\string.h(346): note: 参见“strncpy”的声明
+asr_sample.c(133): warning C4267: “=”: 从“size_t”转换到“long”，可能丢失数据
+asr_sample.c(153): warning C4018: “<”: 有符号/无符号不匹配
+asr_sample.c(115): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt\stdio.h(205): note: 参见“fopen”的声明
+asr_sample.c(194): warning C4267: “初始化”: 从“size_t”转换到“unsigned int”，可能丢失数据
+asr_sample.c(201): warning C4996: 'strncat': This function or variable may be unsafe. Consider using strncat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt\string.h(255): note: 参见“strncat”的声明
+  正在生成代码
+  All 6 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  已完成代码的生成
+  asr_sample.vcxproj -> C:\Users\Friedrich\Desktop\Windows_voice_1166_5a489d2e\samples\asr_sample\temp\output\x64\Release\asr_sample.exe
+  asr_sample.vcxproj -> C:\Users\Friedrich\Desktop\Windows_voice_1166_5a489d2e\samples\asr_sample\temp\output\x64\Release\asr_sample.pdb (Full PDB)
+  已复制         1 个文件。

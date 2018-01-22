@@ -1,0 +1,25 @@
+﻿  已复制         1 个文件。
+  iat_record_sample.c
+iat_record_sample.c(32): warning C4101: “orig”: 未引用的局部变量
+iat_record_sample.c(99): warning C4267: “函数”: 从“size_t”转换到“unsigned int”，可能丢失数据
+iat_record_sample.c(73): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt\stdio.h(205): note: 参见“fopen”的声明
+iat_record_sample.c(181): warning C4996: 'strncat': This function or variable may be unsafe. Consider using strncat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt\string.h(255): note: 参见“strncat”的声明
+iat_record_sample.c(243): warning C4267: “=”: 从“size_t”转换到“unsigned long”，可能丢失数据
+iat_record_sample.c(225): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt\stdio.h(205): note: 参见“fopen”的声明
+iat_record_sample.c(422): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt\stdio.h(1270): note: 参见“scanf”的声明
+iat_record_sample.c(433): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt\stdio.h(1270): note: 参见“scanf”的声明
+  speech_recognizer.c
+speech_recognizer.c(241): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt\string.h(346): note: 参见“strncpy”的声明
+  winrec.c
+  正在生成代码
+  All 50 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  已完成代码的生成
+  iat_record_sample.vcxproj -> C:\Users\Friedrich\Desktop\Windows_voice_1166_5a489d2e\samples\iat_record_sample\temp\output\x64\Release\iat_record_sample.exe
+  iat_record_sample.vcxproj -> C:\Users\Friedrich\Desktop\Windows_voice_1166_5a489d2e\samples\iat_record_sample\temp\output\x64\Release\iat_record_sample.pdb (Full PDB)
+  已复制         1 个文件。

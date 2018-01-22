@@ -1,0 +1,25 @@
+﻿  已复制         1 个文件。
+  iat_sample.c
+iat_sample.c(52): warning C4267: “=”: 从“size_t”转换到“unsigned int”，可能丢失数据
+iat_sample.c(34): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt\stdio.h(205): note: 参见“fopen”的声明
+iat_sample.c(121): warning C4267: “=”: 从“size_t”转换到“long”，可能丢失数据
+iat_sample.c(140): warning C4018: “<”: 有符号/无符号不匹配
+iat_sample.c(85): warning C4047: “初始化”:“char”与“void *”的间接级别不同
+iat_sample.c(86): warning C4047: “初始化”:“char”与“void *”的间接级别不同
+iat_sample.c(103): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt\stdio.h(205): note: 参见“fopen”的声明
+iat_sample.c(169): warning C4267: “初始化”: 从“size_t”转换到“unsigned int”，可能丢失数据
+iat_sample.c(176): warning C4996: 'strncat': This function or variable may be unsafe. Consider using strncat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt\string.h(255): note: 参见“strncat”的声明
+iat_sample.c(201): warning C4267: “初始化”: 从“size_t”转换到“unsigned int”，可能丢失数据
+iat_sample.c(208): warning C4996: 'strncat': This function or variable may be unsafe. Consider using strncat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt\string.h(255): note: 参见“strncat”的声明
+iat_sample.c(262): warning C4996: 'freopen': This function or variable may be unsafe. Consider using freopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt\stdio.h(240): note: 参见“freopen”的声明
+  正在生成代码
+  All 6 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  已完成代码的生成
+  iat_sample.vcxproj -> C:\Users\Friedrich\Desktop\Windows_voice_1166_5a489d2e\samples\iat_sample\temp\output\x64\Release\iat_sample.exe
+  iat_sample.vcxproj -> C:\Users\Friedrich\Desktop\Windows_voice_1166_5a489d2e\samples\iat_sample\temp\output\x64\Release\iat_sample.pdb (Full PDB)
+  已复制         1 个文件。
